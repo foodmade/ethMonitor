@@ -11,4 +11,4 @@ emitter.addListener("processPendingTransferEvnet",function(options){
 
 emitter.addListener("processBlockConfirmEvent",function(options){
     log.info(`Submit processBlockConfirmEvent request. ${JSON.stringify(options)}`);
-})
+});

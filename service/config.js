@@ -5,14 +5,22 @@ var _LOG_LEVEL_DEBUG = 'debug';
 
 module.exports = {
     wallet:{
-        contractAddress   : '0x009b3D84760caa9ee6792c58184476166F4D1221',
+        contractAddress   : '0x19ba60a0d3eae900761078c536b1b065937671a8',
         wssUrl            : 'wss://kovan.infura.io/ws/v3/ef40dd3c018349959f1509fb679ea67d',
+        ipcUrl            : 'https://kovan.infura.io/v3/ef40dd3c018349959f1509fb679ea67d',
         secretKey         : 'A41686728F41287B31DCC360D251BFC38C1B2BCB95EDC735D4D96A87D2FF4A55',
         adminAddress      : '0x493fb23d930458a84b49B5cA53D961e039868A58',
-        ipcUrl            : 'https://kovan.infura.io/v3/ef40dd3c018349959f1509fb679ea67d',
+        tokenName         : 'EBC',
         callback          : {
             host: 'http://127.0.0.1:8000',
-            agent: false,
+            transactionHost :{
+                path: '/hub/submitTransferEvent',
+                agent: false,
+            },
+            confirmHost: {
+                path: '/hub/confirmBlockNumEvent',
+                agent: false,
+            },
             headers: {
                 'Host':'127.0.0.1',
                 'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -325,6 +333,8 @@ module.exports = {
         }
     ],
     work:{
-        refreshTime: 30 * 1000
+        refreshTime: 15 * 1000,
+        frontBlockNum: 10,
+        confirmCount: 20
     }
-}
+};

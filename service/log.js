@@ -9,7 +9,7 @@ module.exports = {
     },
     
     err: function (msg){
-        logger.err(msg);
+        logger.error(msg);
     },
     
     warn: function (msg){
@@ -19,5 +19,5 @@ module.exports = {
     debug: function (msg){
         logger.debug(msg);
     }
-}
+};
 
