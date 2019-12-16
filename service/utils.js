@@ -11,6 +11,10 @@ module.exports = {
         return config.wallet.callback.host + config.wallet.callback.confirmHost.path;
     },
 
+    getEthTransactionEventHost: function(){
+        return config.wallet.callback.host + config.wallet.callback.ethTransactionHost.path;
+    },
+
     strSpecialHandler: function(str){
         str = str.trim();
         str = str.replace('\\s*','');
@@ -29,6 +33,15 @@ module.exports = {
     submitConfirmEvent: function (data,callback,errback) {
         request.post(this.getConfirmEventHost(),data,function () {
             callback();
+        },function () {
+            errback();
+        })
+    },
+
+    submitEthTransactionEvent: function (data,callback,errback) {
+        data.tokenName = 'ETH';
+        request.post(this.getEthTransactionEventHost(),data,function (response) {
+            callback(response);
         },function () {
             errback();
         })

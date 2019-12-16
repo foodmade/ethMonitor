@@ -86,6 +86,9 @@ const listenerContract = function(){
 };
 
 const listenerEtherTransfers = function () {
+    if(!config.other.eth_listener){
+        return;
+    }
     logger.info(`Start eth transfer listener hanlder.`);
     const subscription = web3.eth.subscribe('newBlockHeaders');
     // Subscribe to pending transactions
@@ -96,7 +99,6 @@ const listenerEtherTransfers = function () {
     }).on('data', async (event) => {
         try {
             getBlock(event.number);
-            // confirmEtherTransaction(txHash);
         }catch (error) {
             logger.err(error)
         }
@@ -112,6 +114,7 @@ const callServer = function (data) {
     })
 };
 
+//提交确认区块数
 const callConfirmBlock = function (txHash,trxConfirmations) {
     utils.submitConfirmEvent({
         transactionHash: txHash,
@@ -120,6 +123,18 @@ const callConfirmBlock = function (txHash,trxConfirmations) {
         logger.info(`Submit confirm block number successful.`)
     },function () {
         logger.err(`Submit confirm block number failed.`)
+    })
+};
+
+//提交ETH块信息
+const callEthTransfer = function (data,callback) {
+    utils.submitEthTransactionEvent(data,function (response) {
+        logger.info(`Submit eth transaction successful.`);
+        if(response.data){
+            callback();
+        }
+    },function () {
+        logger.err(`Submit eth transaction failed.`);
     })
 };
 
@@ -151,6 +166,10 @@ const getTransactions  = function (transactions) {
                 to = result.to;
                 logger.info(`from: ${from}`);
                 logger.info(`to: ${to}`);
+                callEthTransfer(result,() => {
+                    logger.info(`This transaction is valid. txHash:${result.hash},Execute confirm block number.`);
+                    confirmEtherTransaction(result.hash,config.work.confirmCount)
+                });
             });
     });
 };
@@ -179,8 +198,6 @@ async function getConfirmations(txHash) {
         logger.err(error)
 	}
 }
-
-
     /**
      * Init web3 client.
      */

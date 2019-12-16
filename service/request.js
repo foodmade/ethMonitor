@@ -13,10 +13,10 @@ module.exports = {
             body: data
         }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-                logger.info(`Method:[POST]. Callback process to server successful. rspBody:${body}`);
-                callback();
+                logger.info(`Method:[POST]. Callback process to server successful. rspBody:${JSON.stringify(body)}`);
+                callback(body);
             }else{
-                logger.warn(`Method:[POST]. Callback process to server fail. exMsg:${error}`);
+                logger.warn(`Method:[POST]. Callback process to server fail. exMsg:${JSON.stringify(error)}`);
                 errback();
             }
         }); 

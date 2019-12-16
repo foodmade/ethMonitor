@@ -15,11 +15,12 @@ module.exports = {
             host: 'http://127.0.0.1:8000',
             transactionHost :{
                 path: '/hub/submitTransferEvent',
-                agent: false,
             },
             confirmHost: {
                 path: '/hub/confirmBlockNumEvent',
-                agent: false,
+            },
+            ethTransactionHost:{
+                path:"/hub/ethSubmitTransferEvent",
             },
             headers: {
                 'Host':'127.0.0.1',
@@ -29,6 +30,9 @@ module.exports = {
                 'Content-Type':'application/json;charset=UTF-8'
             }
         }
+    },
+    other:{
+        eth_listener: true
     },
     log:{
         level: _LOG_LEVEL_INFO,
